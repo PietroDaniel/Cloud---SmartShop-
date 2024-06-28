@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_database
+    ports:
+      - "3307:3306"  # Alteramos a porta aqui
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: dbsmartshop
+      MYSQL_USER: smartshop
+      MYSQL_PASSWORD: root
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./Backend/src/main/resources/scripts:/docker-entrypoint-initdb.d
+    networks:
+      - network-projeto
+
+  java_app:
+    build: ./Backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    networks:
+      - network-projeto
+
+  frontend:
+    build: ./Frontend
+    ports:
+      - "4200:4200"
+    networks:
+      - network-projeto
+
+networks:
+  network-projeto:
