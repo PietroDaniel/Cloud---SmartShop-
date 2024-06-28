@@ -10,7 +10,7 @@ export class ItemService {
 
   constructor(private httpClient: HttpClient) { }
 
-  private readonly API: string = 'http://localhost:8080/SmartShop/rest/item';
+  private readonly API: string = 'http://localhost:8080/rest/item';
 
   salvar(item: Item) {
     return this.httpClient.post<Item>(this.API, item)
